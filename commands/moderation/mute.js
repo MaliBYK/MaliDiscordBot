@@ -1,32 +1,35 @@
-const { sendEmbed } = require("../../helpers/embeds");
+const { sendEmbed, sendEmbedField } = require("../../helpers/embeds");
 
 module.exports = {
   commands: "mute",
   permissionError: "You do not have permission to use this command.",
-  expectedArgs: "<Member>",
+  expectedArgs: "<Member> (optional reason)",
   minArgs: 1,
-  maxArgs: 1,
+  maxArgs: null,
   permissions: "MUTE_MEMBERS",
   callback: async (message, arguments, text) => {
     const { mentions, guild } = message;
-    const targetUser = mentions.users.first();
+    const targetMember = mentions.members.first();
 
-    if (!targetUser) {
+    if (!targetMember) {
       sendEmbed(message, "Please specify the user !");
       return;
     }
-
-    const mutedRole = guild.roles.cache.find(role => role.name === "MUTED");
+    arguments.shift();
+    let mutedRole = guild.roles.cache.find(role => role.name === "MUTED");
     if (!mutedRole) {
       try {
         mutedRole = await guild.roles.create({
-          name: "MUTED",
-          color: "#000000",
-          permissions: ["VIEW_CHANNEL"],
+          data: {
+            name: "MUTED",
+            color: "#000000",
+            permissions: ["VIEW_CHANNEL"],
+          },
+          reason: arguments.join(" "),
         });
 
-        guild.channels.forEach(async channel => {
-          await channel.overwritePermissions(mutedRole, {
+        guild.channels.cache.forEach(async channel => {
+          await channel.createOverwrite(mutedRole, {
             SEND_MESSAGES: false,
             ADD_REACTIONS: false,
             CONNECT: false,
@@ -37,8 +40,17 @@ module.exports = {
       }
     }
 
-    const targetMember = guild.members.cache.get(targetUser.id);
+    if (targetMember.roles.cache.some(role => role === mutedRole)) {
+      sendEmbed(message, "This user is already muted.");
+      return;
+    }
+
     targetMember.roles.add(mutedRole);
-    sendEmbed(message, `<@${targetUser.id}> has been muted!`);
+    sendEmbedField(
+      message,
+      `<@${targetMember.id}> has been muted!`,
+      "Reason :",
+      "`" + arguments.join(" ") + "`"
+    );
   },
 };

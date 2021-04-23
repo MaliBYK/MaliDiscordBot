@@ -10,7 +10,8 @@ module.exports = {
   permissions: "MANAGE_MESSAGES",
   callback: (message, arguments, text) => {
     if (arguments.length) {
-      const number = +arguments[0];
+      let number = +arguments[0];
+      if (number > 100) number = 100;
       message.channel.bulkDelete(number).then(() => {
         sendEmbed(message, `Deleted ${number} messages...`);
       });

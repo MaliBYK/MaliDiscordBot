@@ -19,8 +19,10 @@ const registerCommands = () => {
 
     for (const file of files) {
       const stat = fs.lstatSync(path.join(__dirname, dir, file));
-      if (stat.isDirectory()) readCommands(path.join(dir, file));
-      else if (file !== baseFile) {
+      if (stat.isDirectory()) {
+        readCommands(path.join(dir, file));
+      }
+      if (file !== baseFile) {
         const options = require(path.join(__dirname, dir, file));
         commandBase(client, options);
       }

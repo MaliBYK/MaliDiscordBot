@@ -9,9 +9,9 @@ module.exports = {
   permissions: "MUTE_MEMBERS",
   callback: async (message, arguments, text) => {
     const { mentions, guild } = message;
-    const targetUser = mentions.users.first();
+    const targetMember = mentions.members.first();
 
-    if (!mentions.users.first()) {
+    if (!targetMember) {
       sendEmbed(message, "Please specify the user !");
       return;
     }
@@ -19,26 +19,29 @@ module.exports = {
     const mutedRole = guild.roles.cache.find(role => role.name === "MUTED");
     if (!mutedRole) {
       try {
-        mutedRole = await guild.createRole({
-          name: "MUTED",
-          color: "#000000",
-          permissions: [],
+        mutedRole = await guild.roles.create({
+          data: {
+            name: "MUTED",
+            color: "#000000",
+            permissions: ["VIEW_CHANNEL"],
+          },
         });
 
-        guild.channels.forEach(async channel => {
+        guild.channels.cache.forEach(async channel => {
           await channel.overwritePermissions(mutedRole, {
-            SEND_MESSAGES: false,
-            ADD_REACTIONS: false,
-            CONNECT: false,
+            data: {
+              SEND_MESSAGES: false,
+              ADD_REACTIONS: false,
+              CONNECT: false,
+            },
           });
         });
       } catch (err) {
         console.log(err);
       }
     }
-    const targetMember = guild.members.cache.get(targetUser.id);
     if (targetMember.roles.cache.has(mutedRole.id)) {
-      sendEmbed(message, `<@${targetUser.id}> has been unmuted`);
+      sendEmbed(message, `<@${targetMember.id}> has been unmuted`);
       targetMember.roles.remove(mutedRole);
     } else {
       sendEmbed(message, "You cannot unmute someone who is not muted.");
