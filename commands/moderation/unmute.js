@@ -1,5 +1,4 @@
-const Discord = require("discord.js");
-const ms = require("ms");
+const { sendEmbed } = require("../../helpers/embeds");
 
 module.exports = {
   commands: "unmute",
@@ -18,7 +17,6 @@ module.exports = {
     }
 
     const mutedRole = guild.roles.cache.find(role => role.name === "MUTED");
-    console.log(mutedRole.id);
     if (!mutedRole) {
       try {
         mutedRole = await guild.createRole({
@@ -46,14 +44,4 @@ module.exports = {
       sendEmbed(message, "You cannot unmute someone who is not muted.");
     }
   },
-};
-
-const sendEmbed = (message, content) => {
-  const embed = new Discord.MessageEmbed()
-    .setColor("#37e7ed")
-    .setDescription(content)
-    .setTimestamp()
-    .setFooter("Sent by Gifcolic");
-
-  message.channel.send(embed).then(embed => embed.delete({ timeout: 5000 }));
 };

@@ -1,5 +1,4 @@
-const Discord = require("discord.js");
-const ms = require("ms");
+const { sendEmbed } = require("../../helpers/embeds");
 
 module.exports = {
   commands: "mute",
@@ -20,10 +19,10 @@ module.exports = {
     const mutedRole = guild.roles.cache.find(role => role.name === "MUTED");
     if (!mutedRole) {
       try {
-        mutedRole = await guild.createRole({
+        mutedRole = await guild.roles.create({
           name: "MUTED",
           color: "#000000",
-          permissions: [],
+          permissions: ["VIEW_CHANNEL"],
         });
 
         guild.channels.forEach(async channel => {
@@ -42,14 +41,4 @@ module.exports = {
     targetMember.roles.add(mutedRole);
     sendEmbed(message, `<@${targetUser.id}> has been muted!`);
   },
-};
-
-const sendEmbed = (message, content) => {
-  const embed = new Discord.MessageEmbed()
-    .setColor("#37e7ed")
-    .setDescription(content)
-    .setTimestamp()
-    .setFooter("Sent by Gifcolic");
-
-  message.channel.send(embed).then(embed => embed.delete({ timeout: 5000 }));
 };
