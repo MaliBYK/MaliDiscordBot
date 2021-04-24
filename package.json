@@ -1,0 +1,26 @@
+{
+  "name": "DiscordBot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cdcolours": "^2.1.1",
+    "cdhandler": "^1.4.2",
+    "discord.js": "^12.5.3",
+    "module-alias": "^2.2.2",
+    "mongoose": "^5.12.5"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@commands": "./commands",
+    "@config": "./config",
+    "@helpers": "./helpers"
+  }
+}
