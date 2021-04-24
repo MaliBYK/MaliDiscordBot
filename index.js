@@ -1,34 +1,30 @@
-const path = require("path");
-const fs = require("fs");
+require("module-alias/register");
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const { token } = require("./config/config.json");
+const { token, prefix } = require("@config/config.json");
 
-client.on("ready", () => {
-  console.log("The client is ready !");
+const colour = require("cdcolours");
+const { CDHandler } = require("cdhandler");
 
-  registerCommands();
+const mongo = require("@helpers/mongo");
+
+client.on("ready", async () => {
+  new CDHandler(client, {
+    commandsDir: "commands",
+    eventsDir: "events",
+    featuresDir: "features",
+    prefix: prefix,
+    category: "Misc",
+    pingReply: true,
+    devs: ["707513028756897802"],
+    defaults: true,
+    warnings: true,
+  });
+
+  console.log(
+    colour("[READY]", { textColour: "green" }) +
+      ` Successfully logged in as ${client.user.tag}`
+  );
 });
-
-const registerCommands = () => {
-  const baseFile = "command-base.js";
-  const commandBase = require(`./commands/${baseFile}`);
-
-  const readCommands = dir => {
-    const files = fs.readdirSync(path.join(__dirname, dir));
-
-    for (const file of files) {
-      const stat = fs.lstatSync(path.join(__dirname, dir, file));
-      if (stat.isDirectory()) {
-        readCommands(path.join(dir, file));
-      }
-      if (file !== baseFile) {
-        const options = require(path.join(__dirname, dir, file));
-        commandBase(client, options);
-      }
-    }
-  };
-  readCommands("commands");
-};
 
 client.login(token);

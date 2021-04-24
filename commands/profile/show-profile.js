@@ -1,26 +1,25 @@
 const { oneDescriptionEmbed } = require("@helpers/embeds.js");
 const { prefix } = require("@config/config.json");
+const mongo = require("@helpers/mongo");
 
 module.exports = {
-  name: "Ban",
-  aliases: ["ban"],
-  description: "Ban a member from the guild!",
-  cooldown: "1s",
+  name: "show-profile",
+  aliases: ["show"],
+  description: "Show The Member's Custom Profile",
+  cooldown: "3s",
   cooldownMessage: "Wait {REMAINING} more execute this command again!",
-  minArgs: 1,
-  maxArgs: null,
-  argsMessage:
-    "Incorrect Arguments! Needed Args : <Member's @> (optional reason)",
+  minArgs: 0,
+  maxArgs: 1,
+  argsMessage: "Incorrect Arguments! Needed Args : <Member's @>",
   dev: false,
   devMessage: "You must be a developer to run this command !",
   nsfw: false,
   nsfwMessage: "You cannot run this command in SFW channels",
-  permissions: ["BAN_MEMBERS"],
+  permissions: [],
   permissionsMessage: "You do not have permission to use this command!",
-  botPermissions: ["BAN_MEMBERS"],
-  botPermissionsMessage:
-    "I cannot run this command without the 'Ban Member' permission!",
-  category: "Moderation",
+  botPermissions: ["EMBED_LINK"],
+  botPermissionsMessage: `I cannot run this command without the "${this.botPermissions}" permission(s)!`,
+  category: "Profile",
   locked: false,
   lockedMessage: "This command is locked at the moment!",
   hidden: false,
@@ -34,22 +33,24 @@ module.exports = {
         oneDescriptionEmbed(
           message,
           "#eb4034",
-          "**Please provide a member to ban**",
+          "**Please provide a member to see the profile**",
           "Example",
-          `${prefix}ban <Member> (optional reason)`
+          `${prefix}show-profile <Member>`
         )
       );
-    args.shift();
-    console.log(args);
-    message.channel.send(
-      oneDescriptionEmbed(
-        message,
-        "#1fb533",
-        `<@${target.id}> **has been banned!**`,
-        "Reason : ",
-        args.join(" ")
-      )
-    );
-    handler.cooldown(message, "1s");
+
+    connectDatabase(message, target, client);
   },
+};
+
+const connectDatabase = (message, target, client) => {
+  mongo().then(mongoose => {
+    try {
+      console.log("come");
+      mongoose.findById({ _id: target.id }, response => {
+        console.log(response);
+      });
+    } finally {
+    }
+  });
 };

@@ -1,26 +1,21 @@
-const Discord = require("discord.js");
-const sendEmbed = (message, content) => {
-  const embed = new Discord.MessageEmbed()
-    .setColor("#37e7ed")
+const { MessageEmbed } = require("discord.js");
+const oneDescriptionEmbed = (
+  message,
+  color,
+  content,
+  field_name,
+  field_value
+) => {
+  return new MessageEmbed()
+    .setColor(color)
     .setDescription(content)
-    .setTimestamp()
-    .setFooter("Sent by Gifcolic");
-
-  message.channel.send(embed).then(embed => embed.delete({ timeout: 5000 }));
-};
-
-const sendEmbedField = (message, title, field_first, field_second) => {
-  const embed = new Discord.MessageEmbed()
-    .setColor("#37e7ed")
-    .setDescription(title)
-    .addField(field_first, field_second, false)
-    .setTimestamp()
-    .setFooter("Sent by Gifcolic");
-
-  message.channel.send(embed).then(embed => embed.delete({ timeout: 5000 }));
+    .addField(field_name, "`" + field_value + "`", false)
+    .setFooter(
+      `Requested by ${message.author.username}`,
+      message.author.displayAvatarURL()
+    );
 };
 
 module.exports = {
-  sendEmbed,
-  sendEmbedField,
+  oneDescriptionEmbed,
 };

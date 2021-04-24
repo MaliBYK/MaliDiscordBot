@@ -1,31 +1,26 @@
 {
-  "name": "gifcolic",
+  "name": "DiscordBot",
   "version": "1.0.0",
-  "description": "it is a discord bot about GIFS and Stickers",
+  "description": "",
   "main": "index.js",
-  "dependencies": {
-    "axios": "^0.21.1",
-    "discord.js": "^12.5.3",
-    "fs": "^0.0.1-security",
-    "ms": "^2.1.3",
-    "node-fetch": "^2.6.1",
-    "nodemon": "^2.0.7",
-    "unirest": "^0.6.0"
-  },
-  "devDependencies": {},
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "www.google.com"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cdcolours": "^2.1.1",
+    "cdhandler": "^1.4.2",
+    "discord.js": "^12.5.3",
+    "module-alias": "^2.2.2",
+    "mongoose": "^5.12.5"
   },
-  "keywords": [
-    "gif",
-    "gifcolic",
-    "discord",
-    "gif"
-  ],
-  "author": "Muhammet Ali Baykus",
-  "license": "MIT"
+  "_moduleAliases": {
+    "@root": ".",
+    "@commands": "./commands",
+    "@config": "./config",
+    "@helpers": "./helpers"
+  }
 }
