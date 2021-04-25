@@ -6,10 +6,6 @@ const profileModel = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  guildID: {
-    type: String,
-    required: true,
-  },
   coins: {
     type: Number,
     default: 5000,

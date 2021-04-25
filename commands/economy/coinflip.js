@@ -1,4 +1,4 @@
-const { updateMoney, getMoney, createIfNotExist } = require("@helpers/economy");
+const { updateMoney, createIfNotExist } = require("@helpers/economy");
 
 module.exports = {
   name: "coinflip",
@@ -25,42 +25,43 @@ module.exports = {
   hidden2: false,
   servers: [],
   serversMessage: "Use this command in CDHandler support server!",
+
   callback: ({ message, args, client, handler }) => {
     let amount = Number(args[0]);
-    const userID = message.author.id;
-    const guildID = message.guild.id;
-
+    if (args[0].toLowerCase() === "all") amount = 20000;
     if (amount % 1 !== 0 || amount <= 0)
       return message.channel.send(
         ":no_entry_sign: **|** Incorrect Arguments! **Needed Args : <Positive Amount> (optional side of coin`) **"
       );
+    if (amount > 20000) amount = 20000;
 
-    createIfNotExist(userID, guildID).then(response => {
-      if (amount > response.coins)
-        return message.channel.send(
-          ":no_entry_sign: **| You do not have enough gitcoin to do this !** "
-        );
-      else {
-        message.channel.send(
-          `**${message.author.username}**, spent 💵  __**${amount}**__ and chose **heads**`
-        );
-        setTimeout(() => {
-          if (Math.random() * 101 >= 50) {
-            message.channel.send(
-              `**${message.author.username}** won and earned 💵  __**${
-                amount * 2
-              }**__ **gitcoin!**`
-            );
-          } else {
-            message.channel.send(
-              `**${message.author.username}**,You lost it all...`
-            );
-            amount = amount * -1;
-          }
-          updateMoney(userID, guildID, amount);
-        }, 2000);
-      }
-    });
+    coinflip(message, amount);
     handler.cooldown(message, "10s");
   },
+};
+
+const coinflip = async (message, amount) => {
+  const { author } = message;
+  const memberDB = await createIfNotExist(author.id);
+  if (amount > memberDB.coins)
+    return message.channel.send(
+      ":no_entry_sign: **| You do not have enough gitcoin to do this !** "
+    );
+
+  const spentMessage = await message.channel.send(
+    `**${author.username}**, spent 💵  __**${amount}**__ and chose **heads**\nThe bitcoin spins... :coin:`
+  );
+
+  let finalText;
+  if (Math.random() >= 0.5) {
+    finalText = `and You won and earned 💵  __**${amount * 2}**__ **gitcoin!**`;
+  } else {
+    amount *= -1;
+    finalText = "and You lost it all... :C";
+  }
+
+  setTimeout(() => {
+    updateMoney(author.id, amount);
+    spentMessage.edit(`${spentMessage.content} ${finalText}`);
+  }, 2000);
 };
