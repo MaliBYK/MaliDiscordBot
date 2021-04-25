@@ -1,18 +1,18 @@
-const profileModel = require("@schemas/profileModel");
-const createIfNotExist = async (memberID, guildID) => {
-  let target = await profileModel.findOne({ userID: memberID });
+const profileModel = require("@models/profileModel");
+
+const createIfNotExist = async userID => {
+  let target = await profileModel.findOne({ userID: userID });
   if (!target) {
     target = profileModel.create({
-      userID: memberID,
-      guildID: guildID,
+      userID: userID,
     });
   }
   return target;
 };
 
-const updateMoney = async (userID, guildID, amount) => {
-  // createIfNotExist(memberID, guildID).then(profile => {
-  const user = await profileModel.findOneAndUpdate(
+const updateMoney = async (userID, amount) => {
+  await createIfNotExist(userID)
+  await profileModel.findOneAndUpdate(
     {
       userID: userID,
     },
@@ -20,8 +20,6 @@ const updateMoney = async (userID, guildID, amount) => {
       $inc: { coins: amount },
     }
   );
-  // });
-  return;
 };
 
 module.exports = {
