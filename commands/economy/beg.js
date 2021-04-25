@@ -1,13 +1,13 @@
 const { controlAmount, updateMoney } = require("@helpers/economy");
 
 module.exports = {
-  name: "send",
-  aliases: ["send", "give"],
-  description: "Send Gifcoin to another member",
-  cooldown: "5s",
-  cooldownMessage: "Wait {REMAINING} more execute this command again!",
-  minArgs: 2,
-  maxArgs: 2,
+  name: "beg",
+  aliases: ["beg"],
+  description: "Beg random Gifcoin from 1 to 500",
+  cooldown: "15m",
+  cooldownMessage: "**Wait __{REMAINING}__ more execute this command again!**",
+  minArgs: 0,
+  maxArgs: 0,
   argsMessage: "**Incorrect Arguments!**",
   dev: false,
   devMessage: "You must be a developer to run this command !",
@@ -25,24 +25,16 @@ module.exports = {
   servers: [],
   serversMessage: "Use this command in CDHandler support server!",
   callback: async ({ message, args, client, handler }) => {
-    const { author, mentions } = message;
+    const { author } = message;
 
-    const amount = await controlAmount(message, args[1]);
-    if (!amount) return;
+    const randomAmount = parseInt(Math.random() * 501);
 
-    const sendTo = mentions.users.first();
-    if (!sendTo)
-      return message.channel.send(
-        ":no_entry_sign: **| Please provide a user !!** "
-      );
-
-    updateMoney(sendTo.id, amount);
-    updateMoney(author.id, amount * -1);
+    updateMoney(author.id, randomAmount);
 
     message.channel.send(
-      `:white_check_mark: **| ${author.username}** sent :money_with_wings: __**${amount}**__ ***gifcoin*** to **${sendTo.username}**`
+      `🥺 **| ${author.username}** begged 💵 __**${randomAmount}**__ ***gifcoin*** !! You can beg every __15 Minutes__`
     );
 
-    handler.cooldown(message, "5s");
+    handler.cooldown(message, "15m");
   },
 };

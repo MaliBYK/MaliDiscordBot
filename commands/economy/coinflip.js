@@ -1,4 +1,4 @@
-const { updateMoney, createIfNotExist } = require("@helpers/economy");
+const { updateMoney, controlAmount } = require("@helpers/economy");
 
 module.exports = {
   name: "coinflip",
@@ -26,14 +26,9 @@ module.exports = {
   servers: [],
   serversMessage: "Use this command in CDHandler support server!",
 
-  callback: ({ message, args, client, handler }) => {
-    let amount = Number(args[0]);
-    if (args[0].toLowerCase() === "all") amount = 20000;
-    if (amount % 1 !== 0 || amount <= 0)
-      return message.channel.send(
-        ":no_entry_sign: **|** Incorrect Arguments! **Needed Args : <Positive Amount> (optional side of coin`) **"
-      );
-    if (amount > 20000) amount = 20000;
+  callback: async ({ message, args, client, handler }) => {
+    const amount = await controlAmount(message, args[0]);
+    if (!amount) return;
 
     coinflip(message, amount);
     handler.cooldown(message, "10s");
@@ -42,12 +37,6 @@ module.exports = {
 
 const coinflip = async (message, amount) => {
   const { author } = message;
-  const memberDB = await createIfNotExist(author.id);
-  if (amount > memberDB.coins)
-    return message.channel.send(
-      ":no_entry_sign: **| You do not have enough gitcoin to do this !** "
-    );
-
   const spentMessage = await message.channel.send(
     `**${author.username}**, spent 💵  __**${amount}**__ and chose **heads**\nThe bitcoin spins... :coin:`
   );
