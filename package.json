@@ -21,6 +21,7 @@
     "@root": ".",
     "@commands": "./commands",
     "@config": "./config",
-    "@helpers": "./helpers"
+    "@helpers": "./helpers",
+    "@schemas": "./schemas"
   }
 }

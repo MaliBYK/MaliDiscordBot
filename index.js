@@ -21,6 +21,8 @@ client.on("ready", async () => {
     warnings: true,
   });
 
+  mongo();
+
   console.log(
     colour("[READY]", { textColour: "green" }) +
       ` Successfully logged in as ${client.user.tag}`
