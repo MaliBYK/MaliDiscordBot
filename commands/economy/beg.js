@@ -10,7 +10,7 @@ module.exports = {
   callback: async (message, args, client, handler) => {
     const { author } = message;
 
-    const randomAmount = parseInt(Math.random() * 500);
+    const randomAmount = parseInt(Math.random() * 500)
 
     updateMoney(author.id, randomAmount);
 
