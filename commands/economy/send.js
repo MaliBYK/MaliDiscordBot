@@ -2,7 +2,7 @@ const { controlAmount, updateMoney } = require("@helpers/economy");
 
 module.exports = {
   name: "send",
-  aliases: ["send", "give"],
+  commands: ["send", "give"],
   description: "Send Gifcoin to another member",
   cooldown: "5s",
   cooldownMessage: "Wait {REMAINING} more execute this command again!",

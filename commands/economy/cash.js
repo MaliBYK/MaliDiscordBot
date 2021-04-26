@@ -1,8 +1,7 @@
 const { createIfNotExist } = require("@helpers/economy");
 
 module.exports = {
-  name: "cash",
-  aliases: ["money", "cash"],
+  commands: ["money", "cash"],
   description: "Show The Member's Cash",
   cooldown: "5s",
   cooldownMessage: "Wait {REMAINING} more execute this command again!",

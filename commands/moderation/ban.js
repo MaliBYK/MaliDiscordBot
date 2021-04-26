@@ -1,9 +1,8 @@
 const { oneDescriptionEmbed } = require("@helpers/embeds.js");
-const { prefix } = require("@config/config.json");
+const { prefix } = process.env;
 
 module.exports = {
-  name: "Ban",
-  aliases: ["ban"],
+  commands: ["ban"],
   description: "Ban a member from the guild!",
   cooldown: "1s",
   cooldownMessage: "Wait {REMAINING} more execute this command again!",
@@ -19,14 +18,12 @@ module.exports = {
   permissionsMessage: "You do not have permission to use this command!",
   botPermissions: ["BAN_MEMBERS"],
   botPermissionsMessage:
-    "I cannot run this command without the 'Ban Member' permission!",
+    "I cannot run this command without the 'Ban Members' permission!",
   category: "Moderation",
   locked: false,
   lockedMessage: "This command is locked at the moment!",
   hidden: false,
   hidden2: false,
-  servers: [],
-  serversMessage: "Use this command in CDHandler support server!",
   callback: ({ message, args, client, handler }) => {
     const target = message.mentions.users.first();
     if (!target)
@@ -40,7 +37,6 @@ module.exports = {
         )
       );
     args.shift();
-    console.log(args);
     message.channel.send(
       oneDescriptionEmbed(
         message,

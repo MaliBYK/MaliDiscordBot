@@ -2,7 +2,7 @@ const { updateMoney, controlAmount } = require("@helpers/economy");
 
 module.exports = {
   name: "coinflip",
-  aliases: ["coinflip", "flip", "cf"],
+  commands: ["coinflip", "flip", "cf"],
   description: "Double your money with Coinflip game",
   cooldown: "10s",
   cooldownMessage: "**Wait {REMAINING} to use this command again!**",
