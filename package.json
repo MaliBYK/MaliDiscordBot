@@ -14,11 +14,12 @@
   "dependencies": {
     "cdhandler": "^1.4.2",
     "discord.js": "^12.5.2",
-    "module-alias": "^2.2.2",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.12.5",
-    "node-fetch": "^2.6.1",
     "fs": "^0.0.2",
+    "module-alias": "^2.2.2",
+    "mongoose": "^5.12.5",
+    "ms": "^2.1.3",
+    "node-fetch": "^2.6.1",
     "path": "^0.12.7"
   },
   "_moduleAliases": {

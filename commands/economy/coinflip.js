@@ -19,7 +19,7 @@ module.exports = {
 const coinflip = async (message, amount, side) => {
   const { author } = message;
   const spentMessage = await message.channel.send(
-    `**${author.username}**, spent 💵  __**${amount}**__ and chose **${side}**\nThe bitcoin spins... :coin:`
+    `**${author.username}**, spent 💵  __**${amount}**__ and chose **${side}**\nThe gitcoin spins... :coin:`
   );
 
   let finalText;
