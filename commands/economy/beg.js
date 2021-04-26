@@ -9,13 +9,11 @@ module.exports = {
   callback: async message => {
     const { author } = message;
 
-    const randomAmount = parseInt(Math.random() * 501);
+    const randomAmount = parseInt(Math.random() * 500);
 
     updateMoney(author.id, randomAmount);
 
-    message.channel.send(
-      `🥺 **| ${author.username}** begged 💵 __**${randomAmount}**__ ***gifcoin*** !! You can beg every __15 Minutes__`
-    );
+    message.channel.send(`🥺 **| ${author.username}** begged 💵 __**${randomAmount}**__ ***gifcoin*** !! You can beg every __15 Minutes__`);
 
     handler.cooldown(message, "15m");
   },
