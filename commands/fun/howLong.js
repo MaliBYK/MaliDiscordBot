@@ -1,13 +1,13 @@
 const { controlAmount, updateMoney } = require("@helpers/economy");
 
 module.exports = {
-  name: "beg",
-  aliases: ["beg"],
-  description: "Beg random Gifcoin from 1 to 500",
-  cooldown: "15m",
+  name: "howlong",
+  aliases: ["howlong", "kaccm", "kaçcm"],
+  description: "How long is Your Soldier :D",
+  cooldown: "2s",
   cooldownMessage: "**Wait __{REMAINING}__ more execute this command again!**",
   minArgs: 0,
-  maxArgs: 0,
+  maxArgs: 1,
   argsMessage: "**Incorrect Arguments!**",
   dev: false,
   devMessage: "You must be a developer to run this command !",
@@ -17,7 +17,7 @@ module.exports = {
   permissionsMessage: "You do not have permission to use this command!",
   botPermissions: ["SEND_MESSAGES"],
   botPermissionsMessage: `**I cannot run this command without the needed permission(s)!**`,
-  category: "Economy",
+  category: "Fun",
   locked: false,
   lockedMessage: "This command is locked at the moment!",
   hidden: false,
@@ -25,16 +25,16 @@ module.exports = {
   servers: [],
   serversMessage: "Use this command in CDHandler support server!",
   callback: async ({ message, args, client, handler }) => {
-    const { author } = message;
+    const { author, mentions } = message;
+    let target = mentions.users.first();
 
-    const randomAmount = parseInt(Math.random() * 501);
+    if (!target) target = author;
 
-    updateMoney(author.id, randomAmount);
-
+    const randomAmount = parseInt(Math.random() * 51);
     message.channel.send(
-      `🥺 **| ${author.username}** begged 💵 __**${randomAmount}**__ ***gitcoin*** !! You can beg every __15 Minutes__`
+      `:flushed: **| ${target.username}**'s Soldier is 🍆 __**${randomAmount}**__  cm!! :shushing_face:`
     );
 
-    handler.cooldown(message, "15m");
+    handler.cooldown(message, "2s");
   },
 };

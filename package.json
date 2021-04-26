@@ -14,6 +14,7 @@
     "cdcolours": "^2.1.1",
     "cdhandler": "^1.4.2",
     "discord.js": "^12.5.3",
+    "dotenv": "^8.2.0",
     "module-alias": "^2.2.2",
     "mongoose": "^5.12.5"
   },

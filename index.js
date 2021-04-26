@@ -17,7 +17,6 @@ client.on("ready", async () => {
     category: "Misc",
     pingReply: true,
     devs: ["707513028756897802"],
-    defaults: true,
     warnings: true,
   });
 
