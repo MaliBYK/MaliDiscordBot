@@ -9,7 +9,5 @@ module.exports = {
   category: "Main",
   hidden: false,
   hidden2: false,
-  callback: ({ message, args, client, handler }) => {
-    
-  },
-}
+  callback: message => {},
+};
