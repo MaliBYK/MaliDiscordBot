@@ -4,6 +4,7 @@ module.exports = {
   commands: ["coinflip", "flip", "cf"],
   minArgs: 1,
   maxArgs: 2,
+  cooldown: 5,
   expectedArgs: "<Amount> (optional side)",
   permissions: [],
   callback: async (message, args, text) => {

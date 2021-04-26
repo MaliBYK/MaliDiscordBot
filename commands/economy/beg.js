@@ -4,7 +4,7 @@ module.exports = {
   commands: ["beg"],
   minArgs: 0,
   maxArgs: 0,
-  cooldown: 60,
+  cooldown: 60 * 15,
   permissions: [],
   permissionsError: "You do not have permission to use this command!",
   callback: async message => {

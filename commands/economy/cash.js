@@ -3,6 +3,7 @@ const { createIfNotExist } = require("@helpers/economy");
 module.exports = {
   commands: ["money", "cash", "para"],
   permissions: [],
+  cooldown: 3,
   callback: async (message, args, text) => {
     const { author } = message;
     const profile = await createIfNotExist(author.id);

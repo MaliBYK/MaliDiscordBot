@@ -4,6 +4,7 @@ module.exports = {
   commands: ["send", "give"],
   minArgs: 2,
   maxArgs: 2,
+  cooldown: 5,
   expectedArgs: "<Member's @> <Amount>",
   permissions: [],
   callback: async (message, args, text, client) => {
