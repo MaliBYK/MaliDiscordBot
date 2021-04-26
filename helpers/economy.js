@@ -1,4 +1,4 @@
-const profileModel = require("@models/profileModel");
+const profileModel = require("../schemas/profileModel");
 
 const createIfNotExist = async userID => {
   let target = await profileModel.findOne({ userID: userID });

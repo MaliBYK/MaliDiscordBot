@@ -1,31 +1,34 @@
-require("module-alias/register");
+//--------[PAKCAGES]--------\\
+
 const Discord = require("discord.js");
+const Fetch = require('node-fetch');
+//const { CDHandler } = require("cdhandler");
+
+//--------[CONSTANTS]--------\\
+
 const client = new Discord.Client();
-const { token, prefix } = require("@config/config.json");
+const { token, prefix } = process.env;
+const mongo = require("./helpers/mongo");
+const loadcommands = require('./commands/load-commands')
 
-const colour = require("cdcolours");
-const { CDHandler } = require("cdhandler");
+//--------[EVENTS]--------\\
 
-const mongo = require("@helpers/mongo");
+require("dotenv").config();
+require("module-alias/register");
 
 client.on("ready", async () => {
-  new CDHandler(client, {
-    commandsDir: "commands",
-    eventsDir: "events",
-    featuresDir: "features",
-    prefix: prefix,
-    category: "Misc",
-    pingReply: true,
-    devs: ["707513028756897802"],
-    warnings: true,
-  });
-
   mongo();
-
-  console.log(
-    colour("[READY]", { textColour: "green" }) +
-      ` Successfully logged in as ${client.user.tag}`
-  );
+  loadcommands(client);
+  
+  console.log(`[READY] Successfully logged in as ${client.user.tag}`);
 });
+
+//--------[7/24]--------\\
+
+setInterval(async() => {
+  await Fetch("https://mali-bot-dc.glitch.me").then();
+}, 1000);
+
+//--------[LOGIN THE BOT]--------\\
 
 client.login(token);

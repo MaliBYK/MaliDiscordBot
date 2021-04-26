@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { MONGO_PATH } = require("@config/config.json");
+const MONGO_PATH = "mongodb+srv://discordbot:sondamla2014@malibyk.rc1l7.mongodb.net/DiscordBotDB?retryWrites=true&w=majority";
 
 module.exports = async () => {
   await mongoose
