@@ -3,7 +3,7 @@ const { oneDescriptionEmbed } = require("@helpers/embeds.js");
 module.exports = {
   commands: ["ban"],
   description: "Ban a member from the guild!",
-  cooldown: "1s",
+  cooldown: 60,
   cooldownMessage: "Wait {REMAINING} more execute this command again!",
   minArgs: 1,
   maxArgs: null,
