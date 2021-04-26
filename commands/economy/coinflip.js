@@ -1,44 +1,25 @@
 const { updateMoney, controlAmount } = require("@helpers/economy");
 
 module.exports = {
-  name: "coinflip",
   commands: ["coinflip", "flip", "cf"],
-  description: "Double your money with Coinflip game",
-  cooldown: "10s",
-  cooldownMessage: "**Wait {REMAINING} to use this command again!**",
   minArgs: 1,
-  maxArgs: 1,
-  argsMessage:
-    ":no_entry_sign: **|** Incorrect Arguments! **Needed Args : <Amount> (optional side <t or h>) **",
-  dev: false,
-  devMessage: "You must be a developer to run this command !",
-  nsfw: false,
-  nsfwMessage: "You cannot run this command in SFW channels",
+  maxArgs: 2,
+  expectedArgs: "<Amount> (optional side)",
   permissions: [],
-  permissionsMessage: "You do not have permission to use this command!",
-  botPermissions: ["EMBED_LINK", "SEND_MESSAGES"],
-  botPermissionsMessage: `I cannot run this command without the needed permission(s)!`,
-  category: "Profile",
-  locked: false,
-  lockedMessage: "This command is locked at the moment!",
-  hidden: false,
-  hidden2: false,
-  servers: [],
-  serversMessage: "Use this command in CDHandler support server!",
-
-  callback: async ({ message, args, client, handler }) => {
+  callback: async (message, args, text) => {
     const amount = await controlAmount(message, args[0]);
     if (!amount) return;
 
-    coinflip(message, amount);
-    handler.cooldown(message, "10s");
+    let side = "heads";
+    if (side === "t" || side === "tails") side = "tails";
+    coinflip(message, amount, side);
   },
 };
 
-const coinflip = async (message, amount) => {
+const coinflip = async (message, amount, side) => {
   const { author } = message;
   const spentMessage = await message.channel.send(
-    `**${author.username}**, spent 💵  __**${amount}**__ and chose **heads**\nThe bitcoin spins... :coin:`
+    `**${author.username}**, spent 💵  __**${amount}**__ and chose **${side}**\nThe bitcoin spins... :coin:`
   );
 
   let finalText;
