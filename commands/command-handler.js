@@ -136,8 +136,6 @@ module.exports = (client, commandOptions) => {
           }
         }
 
-        console.log(alias, expectedArgs);
-
         // Split on any number of spaces
         const argument = content.split(/[ ]+/);
 
